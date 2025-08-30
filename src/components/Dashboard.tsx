@@ -7,9 +7,10 @@ import { MobilityWidget } from './widgets/MobilityWidget';
 import { SocialWidget } from './widgets/SocialWidget';
 import { Button } from './ui/button';
 import { useDigitalTwin } from '@/stores/useDigitalTwin';
+import { DigitalAvatar } from './DigitalAvatar';
 
 export const Dashboard = () => {
-  const { twin } = useDigitalTwin();
+  const { twin, vitals, recommendations } = useDigitalTwin();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -85,16 +86,88 @@ export const Dashboard = () => {
         animate="visible"
         className="container mx-auto px-6 py-8"
       >
-        {/* Welcome Section */}
-        <motion.div variants={itemVariants} className="mb-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gradient-primary mb-2">
-              Welcome to Your Digital Life
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Your AI twin is monitoring your wellness, optimizing your environment, and connecting you 
-              with the symbiotic city ecosystem. Everything is designed to enhance your human experience.
-            </p>
+        {/* Hero Section with Digital Avatar */}
+        <motion.div variants={itemVariants} className="mb-12">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-surface border border-border/50 p-8 lg:p-12">
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-gradient-glow opacity-30" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-primary opacity-10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-secondary opacity-10 rounded-full blur-3xl" />
+            
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              {/* Left Side - Text Content */}
+              <div className="text-center lg:text-left space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <h2 className="text-4xl lg:text-5xl font-bold text-gradient-primary mb-4">
+                    Welcome to Your
+                    <br />
+                    <span className="text-gradient-secondary">Digital Life</span>
+                  </h2>
+                  <p className="text-lg text-muted-foreground max-w-xl">
+                    Your AI twin is monitoring your wellness, optimizing your environment, and connecting you 
+                    with the symbiotic city ecosystem. Everything is designed to enhance your human experience.
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="flex flex-wrap gap-4 justify-center lg:justify-start"
+                >
+                  <Button size="lg" className="glow-primary">
+                    <Map className="w-5 h-5 mr-2" />
+                    Explore City
+                  </Button>
+                  <Button variant="outline" size="lg">
+                    <Users className="w-5 h-5 mr-2" />
+                    Social Hub
+                  </Button>
+                </motion.div>
+
+                {/* Quick Stats */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="grid grid-cols-3 gap-4 pt-6"
+                >
+                  <div className="text-center">
+                    <div className="text-2xl font-mono font-bold text-primary">
+                      {vitals ? Math.round(vitals.heartRate) : '--'}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Heart Rate</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-mono font-bold text-accent">
+                      {recommendations.length}
+                    </div>
+                    <div className="text-xs text-muted-foreground">AI Insights</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-mono font-bold text-secondary">
+                      4
+                    </div>
+                    <div className="text-xs text-muted-foreground">Districts</div>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Right Side - Digital Avatar */}
+              <div className="flex justify-center lg:justify-end">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                >
+                  <DigitalAvatar />
+                </motion.div>
+              </div>
+            </div>
           </div>
         </motion.div>
 
